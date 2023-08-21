@@ -30,9 +30,9 @@ const Slider = () => {
     // Utilisez useEffect pour démarrer le timer une fois que le composant est monté
     useEffect(() => {
         const timer = nextCard();
-        // Assurez-vous d'effacer le timer si le composant est démonté
+        console.log("timer ID:", timer); // Ceci affichera l'ID du timer.
         return () => clearTimeout(timer);
-    }, []);
+    }, [index]);
 
     return (
         <div className="SlideCardList">
