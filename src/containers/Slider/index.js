@@ -16,29 +16,45 @@ const Slider = () => {
     )) || [];
 
     // Gérez le clic sur les boutons radio pour changer la carte affichée
-    const handleRadioClick = (eventId) => {
-        const newIndex = byDateDesc.findIndex(event => event.id === eventId);
+    const handleRadioClick = (eventTitle) => {
+        console.log("Radio button clicked with eventId:", eventTitle);
+
+        const newIndex = byDateDesc.findIndex(event => event.title === eventTitle);
+
+        console.log("New index after radio click:", newIndex);
+
         setIndex(newIndex);
     };
 
     // Fonction pour faire défiler automatiquement les cartes toutes les 5 secondes
     const nextCard = () => setTimeout(() => {
-        // Utilisez un rappel pour déterminer le prochain index en fonction du précédent
-        setIndex(prevIndex => (prevIndex < byDateDesc.length - 1 ? prevIndex + 1 : 0));
+        console.log("Calling nextCard function");
+
+        setIndex(prevIndex => {
+            const newIndex = (prevIndex < byDateDesc.length - 1 ? prevIndex + 1 : 0);
+            console.log("Auto changing to index:", newIndex);
+            return newIndex;
+        });
     }, 5000);
 
     // Utilisez useEffect pour démarrer le timer une fois que le composant est monté
     useEffect(() => {
-        const timer = nextCard();
-        console.log("timer ID:", timer); // Ceci affichera l'ID du timer.
-        return () => clearTimeout(timer);
-    }, [index]);
+        console.log("Setting up the timer for auto slide");
 
+        const timer = nextCard();
+
+        console.log("timer ID:", timer);
+
+        return () => {
+            console.log("Clearing timer with ID:", timer);
+            clearTimeout(timer);
+        };
+    }, [index]);
     return (
         <div className="SlideCardList">
             {/* Parcourez et affichez toutes les cartes */}
             {byDateDesc.map((event, idx) => (
-                <React.Fragment key={event.id}>
+                <React.Fragment key={event.title}>
                     <div
                         className={`SlideCard SlideCard--${index === idx ? "display" : "hide"}`}
                     >
@@ -47,7 +63,6 @@ const Slider = () => {
                             <div className="SlideCard__description">
                                 <h3>{event.title}</h3>
                                 <p>{event.description}</p>
-                                {/* Assurez-vous que la fonction getMonth est définie pour afficher correctement le mois */}
                                 <div>{getMonth(new Date(event.date))}</div>
                             </div>
                         </div>
@@ -59,11 +74,14 @@ const Slider = () => {
                 <div className="SlideCard__pagination">
                     {byDateDesc.map((event, idx) => (
                         <input
-                            key={`radio-${event.id}`}
+                            key={`radio-${event.title}`}
                             type="radio"
                             name="radio-button"
                             checked={index === idx}
-                            onChange={() => handleRadioClick(event.id)}
+                            onChange={() => {
+                                console.log(`Radio button for index ${idx} is being changed.`);
+                                handleRadioClick(event.title);
+                            }}
                         />
                     ))}
                 </div>
