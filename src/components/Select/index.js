@@ -13,17 +13,15 @@ const Select = ({
   label,
   type = "normal",
 }) => {
-
   const [value, setValue] = useState();
   const [collapsed, setCollapsed] = useState(true);
-  const changeValue = (newValue) => {
-    onChange();
-    onChange(newValue);
-    setValue(newValue);
-    setCollapsed(!collapsed); // Ici j'ai modifié setCollapsed(newValue) car cela n'avait pas de sens. Je suppose que vous vouliez simplement inverser l'état actuel.
 
-    console.log(newValue);
+  const changeValue = (newValue) => {
+    setValue(newValue);
+    setCollapsed(!collapsed);
+    onChange(newValue); // Appel de onChange avec la nouvelle valeur
   };
+
   return (
     <div className={`SelectContainer ${type}`} data-testid="select-testid">
       {label && <div className="label">{label}</div>}
