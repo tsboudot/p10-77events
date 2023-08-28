@@ -12,7 +12,7 @@ const Slider = () => {
 
     // Triez les données par date en ordre décroissant
     const byDateDesc = (data?.focus?.sort((evtA, evtB) =>
-        new Date(evtB.date) - new Date(evtA.date)
+        new Date(evtA.date) - new Date(evtB.date)
     )) || [];
 
     // Gérez le clic sur les boutons radio pour changer la carte affichée
