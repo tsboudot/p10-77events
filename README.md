@@ -1,15 +1,5 @@
 # 724 Events
 
-## Description
-L'application est le site d'une agence evenementielle.
-## Pre-requis
-- NodeJS  >= v16.14.1
+lien pour le cahier de recettes : 
 
-## Installation
-- `yarn install`
-
-## Lancement de l'application
-- `yarn start`
-
-## Tests
-- `yarn test`
+https://docs.google.com/document/d/11GosIpB_YJeg2UWmhgVp10wa4vHOivj0/edit?usp=sharing&ouid=104695992508935534158&rtpof=true&sd=true
