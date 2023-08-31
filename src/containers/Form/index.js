@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import Field, { FIELD_TYPES } from "../../components/Field";
 import Select from "../../components/Select";
@@ -8,14 +8,21 @@ const mockContactApi = () => new Promise((resolve) => { setTimeout(resolve, 100)
 
 const Form = ({ onSuccess, onError }) => {
   const [sending, setSending] = useState(false);
+  const formRef = useRef(null); // Étape 1 : Créez une référence
+
   const sendContact = useCallback(
     async (evt) => {
       evt.preventDefault();
       setSending(true);
-      // We try to call mockContactApi
+
       try {
         await mockContactApi();
         setSending(false);
+
+        if (formRef.current) { // Étape 3 : Réinitialisez le formulaire en cas de succès
+          formRef.current.reset();
+        }
+
         onSuccess();
       } catch (err) {
         setSending(false);
@@ -24,8 +31,9 @@ const Form = ({ onSuccess, onError }) => {
     },
     [onSuccess, onError]
   );
+
   return (
-    <form onSubmit={sendContact}>
+    <form ref={formRef} onSubmit={sendContact}> {/* Étape 2 : Ajoutez la référence ici */}
       <div className="row">
         <div className="col">
           <Field placeholder="" label="Nom" />
@@ -53,6 +61,7 @@ const Form = ({ onSuccess, onError }) => {
     </form>
   );
 };
+
 
 Form.propTypes = {
   onError: PropTypes.func,
