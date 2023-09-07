@@ -4,18 +4,18 @@ import { getMonth } from "../../helpers/Date";
 import "./style.scss";
 
 const Slider = () => {
-    // Utilisez une fonction personnalisée pour récupérer les données nécessaires pour le composant
+
     const { data } = useData();
 
-    // Utilisez l'état pour suivre l'index de la carte actuellement affichée
+
     const [index, setIndex] = useState(0);
 
-    // Triez les données par date en ordre décroissant
+
     const byDateDesc = (data?.focus?.sort((evtA, evtB) =>
         new Date(evtA.date) - new Date(evtB.date)
     )) || [];
 
-    // Gérez le clic sur les boutons radio pour changer la carte affichée
+
     const handleRadioClick = (eventTitle) => {
         console.log("Radio button clicked with eventId:", eventTitle);
 
