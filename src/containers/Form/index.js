@@ -8,7 +8,7 @@ const mockContactApi = () => new Promise((resolve) => { setTimeout(resolve, 100)
 
 const Form = ({ onSuccess, onError }) => {
   const [sending, setSending] = useState(false);
-  const formRef = useRef(null); // Étape 1 : Créez une référence
+  const formRef = useRef(null);
 
   const sendContact = useCallback(
     async (evt) => {
@@ -19,7 +19,7 @@ const Form = ({ onSuccess, onError }) => {
         await mockContactApi();
         setSending(false);
 
-        if (formRef.current) { // Étape 3 : Réinitialisez le formulaire en cas de succès
+        if (formRef.current) {
           formRef.current.reset();
         }
 
@@ -33,7 +33,7 @@ const Form = ({ onSuccess, onError }) => {
   );
 
   return (
-    <form ref={formRef} onSubmit={sendContact}> {/* Étape 2 : Ajoutez la référence ici */}
+    <form ref={formRef} onSubmit={sendContact}>
       <div className="row">
         <div className="col">
           <Field placeholder="" label="Nom" />

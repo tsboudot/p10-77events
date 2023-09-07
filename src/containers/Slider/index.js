@@ -26,7 +26,7 @@ const Slider = () => {
         setIndex(newIndex);
     };
 
-    // Fonction pour faire défiler automatiquement les cartes toutes les 5 secondes
+
     const nextCard = () => setTimeout(() => {
         console.log("Calling nextCard function");
 
@@ -37,7 +37,7 @@ const Slider = () => {
         });
     }, 5000);
 
-    // Utilisez useEffect pour démarrer le timer une fois que le composant est monté
+
     useEffect(() => {
         console.log("Setting up the timer for auto slide");
 
@@ -52,7 +52,7 @@ const Slider = () => {
     }, [index]);
     return (
         <div className="SlideCardList">
-            {/* Parcourez et affichez toutes les cartes */}
+
             {byDateDesc.map((event, idx) => (
                 <React.Fragment key={event.title}>
                     <div
@@ -69,7 +69,7 @@ const Slider = () => {
                     </div>
                 </React.Fragment>
             ))}
-            {/* Affichez les boutons radio pour permettre à l'utilisateur de changer manuellement de carte */}
+
             <div className="SlideCard__paginationContainer">
                 <div className="SlideCard__pagination">
                     {byDateDesc.map((event, idx) => (
