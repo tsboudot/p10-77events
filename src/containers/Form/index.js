@@ -35,6 +35,7 @@ const Form = ({ onSuccess, onError }) => {
 
       if (!areFieldsValid()) {
         onError(new Error("Invalid input values."));
+        alert('Veuillez remplir tous les champs correctement.'); // <-- Ajoutez cette ligne
         return;
       }
 
@@ -52,6 +53,7 @@ const Form = ({ onSuccess, onError }) => {
     },
     [onSuccess, onError]
   );
+
 
   return (
     <form ref={formRef} onSubmit={sendContact}>
