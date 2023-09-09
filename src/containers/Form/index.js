@@ -6,23 +6,44 @@ import Button, { BUTTON_TYPES } from "../../components/Button";
 
 const mockContactApi = () => new Promise((resolve) => { setTimeout(resolve, 100); })
 
+// Fonction de validation d'email
+const isValidEmail = email => {
+  const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  return re.test(String(email).toLowerCase());
+};
+
 const Form = ({ onSuccess, onError }) => {
   const [sending, setSending] = useState(false);
   const formRef = useRef(null);
 
+  const areFieldsValid = () => {
+    const form = formRef.current;
+    if (!form) return false;
+
+    const name = form.name.value;
+    const firstName = form.firstName.value;
+    const email = form.email.value;
+    const message = form.message.value
+
+    // Vérifiez les champs vides et l'email valide
+    return name && firstName && message && isValidEmail(email);
+  };
+
   const sendContact = useCallback(
     async (evt) => {
       evt.preventDefault();
+
+      if (!areFieldsValid()) {
+        onError(new Error("Invalid input values."));
+        return;
+      }
+
       setSending(true);
 
       try {
         await mockContactApi();
         setSending(false);
-
-        if (formRef.current) {
-          formRef.current.reset();
-        }
-
+        formRef.current.reset();
         onSuccess();
       } catch (err) {
         setSending(false);
@@ -36,8 +57,8 @@ const Form = ({ onSuccess, onError }) => {
     <form ref={formRef} onSubmit={sendContact}>
       <div className="row">
         <div className="col">
-          <Field placeholder="" label="Nom" />
-          <Field placeholder="" label="Prénom" />
+          <Field name="name" placeholder="" label="Nom" />
+          <Field name="firstName" placeholder="" label="Prénom" />
           <Select
             selection={["Personel", "Entreprise"]}
             onChange={() => null}
@@ -45,13 +66,14 @@ const Form = ({ onSuccess, onError }) => {
             type="large"
             titleEmpty
           />
-          <Field placeholder="" label="Email" />
+          <Field name="email" placeholder="" label="Email" />
           <Button type={BUTTON_TYPES.SUBMIT} disabled={sending} data-testid="button-test-id">
             {sending ? "En cours" : "Envoyer"}
           </Button>
         </div>
         <div className="col">
           <Field
+            name="message"
             placeholder="message"
             label="Message"
             type={FIELD_TYPES.TEXTAREA}
@@ -61,7 +83,6 @@ const Form = ({ onSuccess, onError }) => {
     </form>
   );
 };
-
 
 Form.propTypes = {
   onError: PropTypes.func,
